@@ -85,20 +85,20 @@ class RSA:
         """
         Generate RSA public and private keys.
         """
-        prime1 = RSA.generate_prime(bits // 2)
-        prime2 = RSA.generate_prime(bits // 2)
-        while prime1 == prime2:
-            prime2 = RSA.generate_prime(bits // 2)
+        p1 = RSA.generate_prime(bits // 2)
+        p2 = RSA.generate_prime(bits // 2)
+        while p1 == p2:
+            p2 = RSA.generate_prime(bits // 2)
 
-        modulus = prime1 * prime2
-        phi = (prime1 - 1) * (prime2 - 1)
+        modulus = p1 * p2
+        phi = (p1 - 1) * (p2 - 1)
 
-        public_exponent = 65537
-        while RSA.gcd(public_exponent, phi) != 1:
-            public_exponent = random.randint(2, phi - 1)
-        private_exponent = RSA.modinv(public_exponent, phi)
+        e = 65537
+        while RSA.gcd(e, phi) != 1:
+            e = random.randint(2, phi - 1)
+        private_exponent = RSA.modinv(e, phi)
 
-        public_key = (public_exponent, modulus)
+        public_key = (e, modulus)
         private_key = (private_exponent, modulus)
 
         return public_key, private_key
