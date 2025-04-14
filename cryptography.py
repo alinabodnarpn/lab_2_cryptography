@@ -8,7 +8,7 @@ class RSA:
     Implememtation of the RSA encryption system
     """
     @staticmethod
-    def is_prime(number, rounds=5):
+    def is_prime(number):
         """
         Checks if n is prime using Miller-Rabin primality test
         """
@@ -16,26 +16,15 @@ class RSA:
             return False
         if number <= 3:
             return True
-        if number % 2 == 0:
+        if number % 2 == 0 or number % 3 == 0:
             return False
-        odd_part = number - 1
-        power_of_two = 0
-        while odd_part % 2 == 0:
-            odd_part //= 2
-            power_of_two += 1
-        for _ in range(rounds):
-            base = random.randint(2, number - 2)
-            result = pow(base, odd_part, number)
-
-            if result in (1, number - 1):
-                continue
-
-            for _ in range(power_of_two - 1):
-                result = pow(result, 2, number)
-                if result == number - 1:
-                    break
-            else:
+        i = 5
+        w = 2
+        while i * i <= number:
+            if number % i == 0:
                 return False
+            i += w
+            w = 6 - w
         return True
 
     @staticmethod
