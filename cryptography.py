@@ -1,5 +1,3 @@
-import socket
-import threading
 import random
 import hashlib
 
@@ -109,3 +107,7 @@ class RSA:
         d, n = private_key
         decrypted = [chr(pow(char, d, n)) for char in encrypted]
         return ''.join(decrypted)
+
+    @staticmethod
+    def hash_message(message):
+        return hashlib.sha256(message.encode()).hexdigest()
