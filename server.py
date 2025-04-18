@@ -1,8 +1,14 @@
+"""
+Encrypted Chat Server Module
+"""
 import socket
 import threading
 from cryptography import RSA
 
 class Server:
+    """
+     A simple encrypted chat server using socket programming and RSA encryption
+     """
     def __init__(self, port: int) -> None:
         self.host = '127.0.0.1'
         self.port = port
@@ -13,6 +19,9 @@ class Server:
         self.public_key, self.private_key = RSA.generate_keys(bits=32)
 
     def start(self):
+        """
+        Starts the server to accept and handle multiple client connections
+        """
         self.s.bind((self.host, self.port))
         self.s.listen(100)
 
@@ -29,6 +38,9 @@ class Server:
             threading.Thread(target=self.handle_client, args=(c, addr)).start()
 
     def broadcast(self, msg: str):
+        """
+        Sends an encrypted message to all connected clients
+        """
         for client in self.clients:
             pubkey = self.client_public_keys.get(client)
             if pubkey:
@@ -36,6 +48,9 @@ class Server:
                 client.send(str(encrypted).encode())
 
     def handle_client(self, c: socket, addr):
+        """
+        Handles incoming messages from a client
+        """
         while True:
             msg = c.recv(2048).decode()
             if not msg:

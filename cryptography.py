@@ -1,3 +1,6 @@
+"""
+RSA Encryption Module
+"""
 import random
 import hashlib
 
@@ -110,4 +113,7 @@ class RSA:
 
     @staticmethod
     def hash_message(message):
+        """
+        Hashes a message using SHA-256
+        """
         return hashlib.sha256(message.encode()).hexdigest()
